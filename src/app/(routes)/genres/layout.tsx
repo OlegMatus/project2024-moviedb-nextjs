@@ -2,17 +2,18 @@ import React from 'react';
 import {Metadata} from "next";
 
 export const metadata: Metadata = {
-    title: 'MoviesLayout metadata'
+    title: 'GenresLayout metadata'
 }
 type Props = { children: React.ReactNode }
 
-const MoviesLayout = ({children}: Props) => {
+const GenresLayout = ({children}: Props) => {
+
     return (
         <div>
-            MoviesLayout
+            GenresLayout
             {children}
         </div>
     );
 };
 
-export default MoviesLayout;
+export default GenresLayout;

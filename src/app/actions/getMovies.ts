@@ -1,4 +1,4 @@
-import {fetchFromApi} from "@/app/services/fetchApi";
+import {fetchFromApi} from "@/app/actions/fetchApi";
 import {IMovie} from "@/app/models/IMovie";
 import {movies} from "@/app/constants/urls";
 

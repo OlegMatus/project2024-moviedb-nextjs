@@ -1,10 +1,10 @@
-'use server';
+'use server'
 
 import React, {FC} from 'react';
 import {MoviesList} from "@/app/components/MoviesContainer/MoviesList/MoviesList";
 
 import {IMovie} from "@/app/models/IMovie";
-import {getMovies} from "@/app/services/getMovies";
+import {getMovies} from "@/app/actions/getMovies";
 
 type Props = {
     movies: IMovie[];
