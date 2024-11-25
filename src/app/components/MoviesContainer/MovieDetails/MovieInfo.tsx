@@ -1,3 +1,4 @@
+'use client'
 import React, {FC} from 'react';
 
 import {IMovie} from "@/app/models/IMovie";
@@ -9,6 +10,7 @@ import Link from "next/link";
 import {Badge} from "reactstrap";
 import {IGenre} from "@/app/models/IGenre";
 import {IVideo} from "@/app/models/IVideo";
+import StarsRating from "@/app/components/Rating/StarsRating";
 
 type MovieInfoProps = {
     currentMovie: IMovie;
@@ -26,7 +28,7 @@ const MovieInfo: FC<MovieInfoProps> = ({currentMovie, genres, trailer, movieTitl
         runtime,
         poster_path,
         overview,
-        /*vote_average*/
+        vote_average
     } = currentMovie;
 
     const {key, type} = trailer;
@@ -41,7 +43,7 @@ const MovieInfo: FC<MovieInfoProps> = ({currentMovie, genres, trailer, movieTitl
                 </div>
                 <div className={css.info_block}>
                     <h3>Rating</h3>
-                    {/*<StarsRating vote_average={vote_average}/>*/}
+                    <StarsRating vote_average={vote_average}/>
                     <div>
                         <h3>Genres</h3>
                         {genres.map(genre => (

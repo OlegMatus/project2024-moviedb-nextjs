@@ -5,6 +5,7 @@ import {IMovie} from "@/app/models/IMovie";
 
 import css from "./MoviesList.module.css";
 import MoviesPagination from "@/app/components/Pagination/MoviesPagination";
+import StarsRating from "@/app/components/Rating/StarsRating";
 
 type Props = {
     movies: IMovie[];
