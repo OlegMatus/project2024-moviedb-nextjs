@@ -123,7 +123,7 @@ const Header = () => {
 
     const drawer = (
         <Box sx={{textAlign: 'center'}}>
-            <Typography variant="h6" sx={{my: 2}}>
+            <Typography variant="h6" sx={{my: 2}} className={css.gradientText}>
                 MENU
             </Typography>
             <Divider/>
@@ -142,7 +142,7 @@ const Header = () => {
                 <Divider/>
                 <ListItem disablePadding>
                     <ListItemButton onClick={handleGenresClick}>
-                        <ListItemText primary="GENRES"/>
+                        <ListItemText primary="GENRES" className={css.gradientText}/>
                     </ListItemButton>
                 </ListItem>
                 {genres.map((genre) => (
@@ -160,7 +160,7 @@ const Header = () => {
     return (
         <div className={css.HeaderBox}>
             <Box sx={{flexGrow: 1}}>
-                <AppBar position="static" color="transparent">
+                <AppBar position="static" color="transparent" >
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -173,12 +173,14 @@ const Header = () => {
                             <MenuIcon/>
                         </IconButton>
                         <Typography
+                            className={css.gradientText}
                             variant="h6"
                             noWrap
                             component="div"
                             sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
+                            fontSize={35}
                         >
-                            MENU
+                            Lanex
                         </Typography>
                         <Box sx={{display: {xs: 'none', sm: 'block'}}} className={css.btn}>
                             {navElements.map((item) => (

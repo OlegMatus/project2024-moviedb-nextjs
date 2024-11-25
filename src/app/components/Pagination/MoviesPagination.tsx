@@ -73,7 +73,6 @@ const MoviesPagination = () => {
                                 showFirstButton
                                 showLastButton
                                 onChange={handlePageChange}
-                                color="primary"
                                 disabled={isLoading}
                             />
                         )

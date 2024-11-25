@@ -1,4 +1,4 @@
-.HeaderBox{
+.HeaderBox {
     background-color: rgba(255, 0, 0, 0);
     color: white;
     position: relative;
@@ -11,10 +11,18 @@
     justify-content: space-between;
     align-items: center;
 }
-.btn{
+
+.btn {
     width: 50%;
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-evenly !important;
     margin: 15px;
+}
+.gradientText {
+    background: linear-gradient(135deg, #1c1c1c, #3a3a3a, #c71585, #ff4500);
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline-block;
+    text-align: center;
 }

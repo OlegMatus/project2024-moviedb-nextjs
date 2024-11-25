@@ -11,7 +11,7 @@ type Props = {
 }
 
 const MovieCard: FC<Props> = ({movie}: Props) => {
-    const {id, original_title, poster_path, /*vote_average*/} = movie;
+    const {id, original_title, poster_path, release_date} = movie;
     return (
         <div className={css.MovieCard}>
         <Link href={`/movies/${id}`}>
@@ -20,7 +20,7 @@ const MovieCard: FC<Props> = ({movie}: Props) => {
             <div className={css.title_block}>
                 <b>{original_title}</b>
             </div>
-            {/*<div>genres: {release_date}</div>*/}
+            <div>genres: {release_date}</div>
         </div>
     );
 };
