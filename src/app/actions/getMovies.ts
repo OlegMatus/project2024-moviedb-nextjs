@@ -1,9 +1,24 @@
 import {fetchFromApi} from "@/app/actions/fetchApi";
-import {IMovie} from "@/app/models/IMovie";
-import {movies} from "@/app/constants/urls";
+import {IMovie, MoviesRes} from "@/app/models/IMovie";
 
-export const getMovies = async (page: number): Promise<IMovie[]> => {
-    const data = await fetchFromApi<{ results: IMovie[] }>(movies, {page: page.toString()});
+export const getMovies = async (path: string,page: number, query?: string): Promise<MoviesRes<IMovie>> => {
 
-    return data.results;
+    const params: { page: number; query?: string } = { page };
+
+    if (query) {
+        params.query = query;
+    }
+
+    if (isNaN(page) || page <= 0) {
+        throw new Error("Invalid page number. It should be a positive integer.");
+    }
+
+    const data = await fetchFromApi<MoviesRes<IMovie>>(path, params);
+
+    return {
+        page: data.page,
+        total_pages: data.total_pages,
+        total_results: data.total_results,
+        results: data.results
+    };
 }

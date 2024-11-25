@@ -17,3 +17,9 @@ export interface IMovie {
     vote_average: number,
     vote_count: number,
 }
+export type MoviesRes <T> = {
+    page: number;
+    total_pages: number;
+    total_results: number;
+    results: T[];
+}

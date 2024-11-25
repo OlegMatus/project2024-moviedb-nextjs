@@ -1,24 +1,31 @@
 'use client'
 
 import React, {useState} from 'react';
+import NavLink from "@/app/components/NavLink/NavLink";
 import {
     alpha,
     AppBar,
     Box,
     Divider,
     Drawer,
-    IconButton, InputBase,
+    IconButton,
+    InputBase,
     ListItem,
-    ListItemButton, ListItemText, styled,
+    ListItemButton,
+    ListItemText,
+    styled,
     Toolbar,
     Typography
 } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import {List} from "reactstrap";
-import NavLink from "@/app/components/NavLink/NavLink";
 
-import  css from './Header.module.css';
+
+import css from './Header.module.css';
+import {getGenres} from "@/app/actions/getGenres";
+import {IGenre} from "@/app/models/IGenre";
+import {useRouter, useSearchParams} from "next/navigation";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -63,46 +70,86 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 const drawerWidth = 240;
 const navItems = [
+    {label: 'HOME', path: '/'},
     {label: 'MOVIES', path: '/movies'},
-    {label: 'GENRES', path: '/genres'},
-    {label: 'SEARCH MOVIE', path: '/searchMovie'},
+];
+const navElements = [
+    {label: 'POPULAR', path: '/movies/popular'},
+    {label: 'NOW PLAYING', path: '/movies/now_playing'},
+    {label: 'TOP RATED', path: '/movies/top_rated'},
+    {label: 'UPCOMING', path: '/movies//upcoming'},
 ];
 
 const Header = () => {
-    // const {theme,  setTheme} = useState();
-    // const dispatch = useAppDispatch();
-
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [genres, setGenres] = useState<IGenre[]>([]);
+    const [genresLoaded, setGenresLoaded] = useState(false);
 
-    // useEffect(() => {
-    //     localStorage.setItem('theme', theme);
-    // }, [theme]);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const query = searchParams.get('query') || '';
 
-    // const handleChange = () => {
-    //     if (theme === 'light'){
-    //         dispatch(setTheme(theme));
-    //     }else if(theme === 'dark'){
-    //         dispatch(setTheme(theme));
-    //     }else
-    //     dispatch( theme === 'light' ? 'dark' : 'light';)
-    // }
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const query = event.target.value;
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-        console.log('Drawer state:', !mobileOpen);
+        if (query.trim()) {
+            router.push(`/searchMovie?query=${query}&page=1`);
+        } else {
+            router.push(`/searchMovie`);
+        }
+    };
+    const handleDrawerToggle = (forceClose = true, resetGenres = false) => {
+        if (forceClose) {
+            setMobileOpen(!mobileOpen);
+        }
+
+        if (!resetGenres) {
+            setGenres([]);
+            setGenresLoaded(false);
+        }
+    };
+
+    const handleGenresClick = async () => {
+        if (!genresLoaded) {
+            try {
+                const fetchedGenres = await getGenres();
+                setGenres(fetchedGenres);
+                setGenresLoaded(true);
+            } catch (e) {
+                console.error('Fetching genres failed', e);
+            }
+        }
     };
 
     const drawer = (
-        <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
+        <Box sx={{textAlign: 'center'}}>
             <Typography variant="h6" sx={{my: 2}}>
-                MUI
+                MENU
             </Typography>
             <Divider/>
             <List>
-                {navItems.map((item) => (
-                    <ListItem key={item.label} disablePadding>
-                        <ListItemButton sx={{textAlign: 'center'}} component={NavLink} path={item.path}>
-                            <ListItemText primary={item.label}/>
+                <List>
+                    {navItems.map((item) => (
+                        <ListItem key={item.label} disablePadding>
+                            <ListItemButton onClick={() => handleDrawerToggle(false, false)} sx={{textAlign: 'center'}}
+                                            component={NavLink}
+                                            path={item.path}>
+                                <ListItemText primary={item.label}/>
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+                <Divider/>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={handleGenresClick}>
+                        <ListItemText primary="GENRES"/>
+                    </ListItemButton>
+                </ListItem>
+                {genres.map((genre) => (
+                    <ListItem key={genre.id} disablePadding>
+                        <ListItemButton onClick={() => handleDrawerToggle(false, false)} component={NavLink}
+                                        path={`/genres/${genre.id}`}>
+                            <ListItemText primary={genre.name}/>
                         </ListItemButton>
                     </ListItem>
                 ))}
@@ -110,20 +157,18 @@ const Header = () => {
         </Box>
     );
 
-    // const container = () => document.body;
-
     return (
-        <div className={css.main}>
+        <div className={css.HeaderBox}>
             <Box sx={{flexGrow: 1}}>
-                <AppBar position="static">
+                <AppBar position="static" color="transparent">
                     <Toolbar>
                         <IconButton
                             size="large"
                             edge="start"
-                            color="inherit"
+                            color="secondary"
                             aria-label="open drawer"
                             sx={{mr: 2}}
-                            onClick={handleDrawerToggle}
+                            onClick={() => handleDrawerToggle(true, true)}
                         >
                             <MenuIcon/>
                         </IconButton>
@@ -133,15 +178,17 @@ const Header = () => {
                             component="div"
                             sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
                         >
-                            MUI
+                            MENU
                         </Typography>
-                        {/*<Box sx={{display: {xs: 'none', sm: 'block'}}}>*/}
-                        {/*    {navItems.map((item) => (*/}
-                        {/*        <Button key={item.label} color="inherit" component={NavLink} to={item.path}>*/}
-                        {/*            {item.label}*/}
-                        {/*        </Button>*/}
-                        {/*    ))}*/}
-                        {/*</Box>*/}
+                        <Box sx={{display: {xs: 'none', sm: 'block'}}} className={css.btn}>
+                            {navElements.map((item) => (
+                                <ListItem key={item.label} disablePadding>
+                                    <ListItemButton sx={{textAlign: 'center'}} component={NavLink} path={item.path}>
+                                        <ListItemText primary={item.label}/>
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </Box>
                         <Search>
                             <SearchIconWrapper>
                                 <SearchIcon/>
@@ -149,6 +196,8 @@ const Header = () => {
                             <StyledInputBase
                                 placeholder="Search…"
                                 inputProps={{'aria-label': 'search'}}
+                                onChange={handleInputChange}
+                                value={query}
                             />
                         </Search>
                     </Toolbar>
@@ -157,7 +206,7 @@ const Header = () => {
                     <Drawer
                         variant="temporary"
                         open={mobileOpen}
-                        onClose={handleDrawerToggle}
+                        onClose={() => handleDrawerToggle(true, false)}
                         ModalProps={{
                             keepMounted: true,
                             disableScrollLock: true
@@ -170,15 +219,6 @@ const Header = () => {
                     </Drawer>
                 </nav>
             </Box>
-
-            {/*<div className={css.Switch}>*/}
-            {/*    <Switch*/}
-            {/*        checked={theme === 'dark'}*/}
-            {/*        onChange={handleChange}*/}
-            {/*        inputProps={{'aria-label': 'controlled'}}*/}
-            {/*    />*/}
-            {/*    /!*<UserInfo/>*!/*/}
-            {/*</div>*/}
         </div>
     );
 };

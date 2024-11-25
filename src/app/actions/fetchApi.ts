@@ -1,7 +1,5 @@
 import {baseURLS} from "@/app/constants/urls";
 
-export type IRes<T> = Promise<T>;
-
 type Params = Record<string, string | number>
 export const fetchFromApi = async <T>(endpoint: string, params: Params = {}): Promise<T> => {
     const url = new URL(`${baseURLS}/${endpoint}`);
@@ -13,7 +11,7 @@ export const fetchFromApi = async <T>(endpoint: string, params: Params = {}): Pr
             Authorization: `Bearer ${apiToken}`,
             'Content-Type': 'application/json'
         },
-        next: {revalidate: 60}
+        next: {revalidate: 60},
     })
     if (!response.ok) {
         throw new Error(`Failed to fetch: ${response.status}`);

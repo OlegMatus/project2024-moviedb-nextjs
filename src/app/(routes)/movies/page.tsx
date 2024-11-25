@@ -1,21 +1,29 @@
 'use server'
 
-import React, {FC} from 'react';
+import React from 'react';
 import {MoviesList} from "@/app/components/MoviesContainer/MoviesList/MoviesList";
 
-import {IMovie} from "@/app/models/IMovie";
 import {getMovies} from "@/app/actions/getMovies";
+import {movies} from "@/app/constants/urls";
 
-type Props = {
-    movies: IMovie[];
-};
+type SearchParams = {
+searchParams: { page?: string };
+}
 
-const MoviesPage: FC<Props> = async () => {
+const MoviesPage = async ({ searchParams }: SearchParams ) => {
+    const {page} = await searchParams;
+    const pageParam = page ? parseInt(page, 10) : 1;
 
-    const movies = await getMovies(1);
+    if (isNaN(pageParam) || pageParam <= 0) {
+        console.error("Invalid page number provided:", page);
+        throw new Error("Invalid page number. It should be a positive integer.");
+    }
+
+    const {results: moviesData} = await getMovies(movies, pageParam);
+
     return (
         <div>
-            {movies && <MoviesList movies={movies}/>}
+            {moviesData && <MoviesList movies={moviesData}/>}
         </div>
     );
 };

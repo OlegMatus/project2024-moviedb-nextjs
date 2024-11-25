@@ -9,7 +9,6 @@ type Props = { children: React.ReactNode }
 const MoviesLayout = ({children}: Props) => {
     return (
         <div>
-            MoviesLayout
             {children}
         </div>
     );

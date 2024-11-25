@@ -10,7 +10,6 @@ const GenresLayout = ({children}: Props) => {
 
     return (
         <div>
-            GenresLayout
             {children}
         </div>
     );

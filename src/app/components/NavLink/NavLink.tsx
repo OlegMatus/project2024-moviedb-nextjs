@@ -12,7 +12,7 @@ const NavLink: FC<NavLinkProps> = ({path, children}) => {
 
     return (
         <nav>
-            <Link className={`link ${pathname === path ? 'active' : ''}`} href={path}>
+            <Link className={`link ${pathname === path ? 'active' : ''}` } href={path}>
                 {children}
             </Link>
         </nav>

@@ -1,15 +1,9 @@
-import Image from "next/image";
+import css from "./page.module.css"
 
 export default function Home() {
     return (
-        <div style={{position: 'relative', width: '100vw', height: '100vh'}}>
-            <Image
-                src='/46dc29f5-c169-4b99-9fb5-992503c83bc4.jpg'
-                alt='Lanex'
-                layout='fill'
-                objectFit='competive'
-                priority
-            />
+        <div className={css.gradientBox}>
+            <h1 className={css.gradientText}>Welcome to /</h1>
         </div>
     );
 }
