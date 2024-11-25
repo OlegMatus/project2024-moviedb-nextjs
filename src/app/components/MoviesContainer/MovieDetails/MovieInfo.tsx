@@ -3,18 +3,21 @@ import React, {FC} from 'react';
 import {IMovie} from "@/app/models/IMovie";
 
 import css from "./MovieInfo.module.css";
-import {basePosterURL} from "@/app/constants/urls";
+import {basePosterURL, baseTrailerURL} from "@/app/constants/urls";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import {Badge} from "reactstrap";
 import {IGenre} from "@/app/models/IGenre";
+import {IVideo} from "@/app/models/IVideo";
 
 type MovieInfoProps = {
     currentMovie: IMovie;
-    genres: IGenre[]
+    genres: IGenre[];
+    trailer: IVideo;
+    movieTitle: string
 }
 
-const MovieInfo: FC<MovieInfoProps> = ({currentMovie, genres}) => {
+const MovieInfo: FC<MovieInfoProps> = ({currentMovie, genres, trailer, movieTitle}) => {
     const {
         title,
         original_title,
@@ -25,6 +28,8 @@ const MovieInfo: FC<MovieInfoProps> = ({currentMovie, genres}) => {
         overview,
         /*vote_average*/
     } = currentMovie;
+
+    const {key, type} = trailer;
 
     return (
         <div className={css.MovieInfoMain}>
@@ -67,6 +72,13 @@ const MovieInfo: FC<MovieInfoProps> = ({currentMovie, genres}) => {
             <div style={{marginTop: 50}}><h3>Overview</h3></div>
             <div className={css.gradientBox}>
                 <h4 className={css.gradientText}>{overview}</h4>
+            </div>
+            <div className={css.trailer_block}>
+                {trailer && (
+                    <iframe title={movieTitle} width={760} height={415} src={`${baseTrailerURL}/${key}`}
+                            content={type}>{movieTitle}
+                    </iframe>
+                )}
             </div>
         </div>
     );
