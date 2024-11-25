@@ -1,6 +1,5 @@
 import React, {FC, PropsWithChildren, useEffect, useState} from 'react';
 
-
 import StarIcon from '@mui/icons-material/Star';
 import {Box, Rating} from "@mui/material";
 
@@ -66,11 +65,19 @@ const StarsRating: FC<IProps> = ({vote_average}) => {
                     onChange={(event, newValue) => {
                         setRatingState(newValue);
                     }}
-                    emptyIcon={<StarIcon style={{opacity: 2.55}}/>}
+                    emptyIcon={<StarIcon style={{fontSize: 23, opacity: 0.55}} />}
                     sx={{
-                        fontSize: 18,
+                        fontSize: 23,
                         boxSizing: 'border-box',
-                        position: 'absolute'
+                        position: 'relative',
+                        '& .MuiRating-iconFilled': {
+                            background: 'linear-gradient(135deg, #1a1a1a, #2f2f2f, #3c3c3c)',
+                            '-webkit-background-clip': 'text',
+                            color: 'transparent',
+                        },
+                        '& .MuiRating-iconEmpty': {
+                            color: '#cccccc',
+                        },
                     }}
                 />
 
