@@ -159,9 +159,9 @@ const Header = () => {
 
     return (
         <div className={css.HeaderBox}>
-            <Box sx={{flexGrow: 1}}>
+            <Box sx={{flexGrow: 1}} >
                 <AppBar position="static" color="transparent" >
-                    <Toolbar>
+                    <Toolbar style={{backgroundColor: 'transparent', color: 'darkgray'}}>
                         <IconButton
                             size="large"
                             edge="start"
@@ -214,7 +214,14 @@ const Header = () => {
                             disableScrollLock: true
                         }}
                         sx={{
-                            '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
+                            '& .MuiDrawer-paper': {
+                                boxSizing: 'border-box',
+                                width: drawerWidth,
+                                backgroundColor: '#333333',
+                            },
+                            '& .MuiList-root': {
+                                backgroundColor: '#333333',
+                            },
                         }}
                     >
                         {drawer}
