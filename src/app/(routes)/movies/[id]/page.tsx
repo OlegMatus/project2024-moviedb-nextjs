@@ -6,7 +6,6 @@ import MovieInfo from "@/app/components/MoviesContainer/MovieDetails/MovieInfo";
 import {getGenres} from "@/app/actions/getGenres";
 import {IGenre} from "@/app/models/IGenre";
 import {getVideoById} from "@/app/actions/getVideoById";
-import {videos} from "@/app/constants/urls";
 
 type Params = {
     id: string;
